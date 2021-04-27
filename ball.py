@@ -25,14 +25,22 @@ pg.init()
 pantalla = pg.display.set_mode((ANCHO, ALTO))
 reloj = pg.time.Clock()
 
+class Bola():
+    def __init__(self, x, y, vx, vy, color):
+        self.x = x
+        self.y = y
+        self.vx = vx
+        self.vy = vy
+        self.color = color
+
 bolas = []
 for _ in range(10):
-    bola = {'x': randint(0, ANCHO),
-            'y': randint(0, ALTO),
-            'vx': randint(5, 10),
-            'vy': randint(5, 10),
-            'color': (randint(0, 255), randint(0, 255), randint(0, 255))
-    }
+    bola = Bola(randint(0, ANCHO),
+                randint(0, ALTO),
+                randint(5, 10),
+                randint(5, 10),
+                (randint(0, 255), randint(0, 255), randint(0, 255)))
+
     bolas.append(bola)
 
 game_over = False
@@ -45,17 +53,17 @@ while not game_over:
 
     #modificacion de estado 
     for bola in bolas:
-        bola['x'] += bola['vx']
-        bola['y'] += bola['vy']
+        bola.x += bola.vx
+        bola.y += bola.vy
 
    
-        bola['vy'] *= rebotaY(bola['y'])
-        bola['vx'] *= rebotaX(bola['x'])
+        bola.vy *= rebotaY(bola.y)
+        bola.vx *= rebotaX(bola.x)
       
     #gestion de la pantalla
     pantalla.fill(NEGRO)
     for bola in bolas:
-        pg.draw.circle(pantalla, bola['color'], (bola['x'], bola['y']), 10)
+        pg.draw.circle(pantalla, bola.color, (bola.x, bola.y), 10)
     
     pg.display.flip()
 
