@@ -61,6 +61,7 @@ class Bola():
 
         if choqueX and choqueY:
             self.vy *= -1
+            return True
 
 class Raqueta():
     def __init__(self, x=0, y=0):
@@ -84,6 +85,23 @@ class Raqueta():
             self.x += self.vx
 
 vidas = 3
+score = 0
+font = pg.font.Font('freesansbold.ttf', 24)
+over_font = pg.font.Font('freesansbold.ttf', 64)
+
+def vidasRestantes():
+    valor_vidas = font.render("Vidas " + str(vidas), True, (255, 255, 255))
+    pantalla.blit(valor_vidas, (10,10))
+
+def puntuacion():
+    valor_score = font.render("Score " + str(score), True, (255, 255, 255))
+    pantalla.blit(valor_score, (690, 10))
+
+def hasPerdido():
+    if vidas == 0:
+        se_acabo = over_font.render("GAME OVER", True, (255, 255, 255))
+        pantalla.blit(se_acabo, (200, 200))
+
 bola = Bola(randint(0, ANCHO),
                 randint(0, ALTO),
                 randint(5, 10)*choice([-1, 1]),
@@ -105,17 +123,22 @@ while not game_over and vidas > 0:
     pierdebola = bola.actualizar()
     if pierdebola:
         vidas -= 1
-    bola.comprueba_colision(raqueta)
-              
+    sumapuntos = bola.comprueba_colision(raqueta)
+    if sumapuntos == True:
+        score += 5
+   
     #gestion de la pantalla
     pantalla.fill(NEGRO)
     bola.dibujar(pantalla)
     raqueta.dibujar(pantalla)
-      
-    
+    vidasRestantes()
+    puntuacion()
+    hasPerdido()
+          
     pg.display.flip()
     if pierdebola:
         pg.time.delay(500)
+    
 
 pg.quit()
 sys.exit()
