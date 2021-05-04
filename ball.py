@@ -86,8 +86,8 @@ class Raqueta():
 
 vidas = 3
 score = 0
-font = pg.font.Font('freesansbold.ttf', 24)
-over_font = pg.font.Font('freesansbold.ttf', 64)
+font = pg.font.SysFont("Arial", 32)
+over_font = pg.font.SysFont("Arial", 64)
 
 def vidasRestantes():
     valor_vidas = font.render("Vidas " + str(vidas), True, (255, 255, 255))
@@ -100,7 +100,7 @@ def puntuacion():
 def hasPerdido():
     if vidas == 0:
         se_acabo = over_font.render("GAME OVER", True, (255, 255, 255))
-        pantalla.blit(se_acabo, (200, 200))
+        pantalla.blit(se_acabo, (240, 200)) 
 
 bola = Bola(randint(0, ANCHO),
                 randint(0, ALTO),
@@ -123,8 +123,7 @@ while not game_over and vidas > 0:
     pierdebola = bola.actualizar()
     if pierdebola:
         vidas -= 1
-    sumapuntos = bola.comprueba_colision(raqueta)
-    if sumapuntos == True:
+    if bola.comprueba_colision(raqueta) == True:
         score += 5
    
     #gestion de la pantalla
@@ -133,12 +132,16 @@ while not game_over and vidas > 0:
     raqueta.dibujar(pantalla)
     vidasRestantes()
     puntuacion()
-    hasPerdido()
-          
+    
+
     pg.display.flip()
     if pierdebola:
         pg.time.delay(500)
-    
+
+pantalla.fill(ROJO)
+hasPerdido()
+pg.display.flip()
+pg.time.delay(1000)   
 
 pg.quit()
 sys.exit()
