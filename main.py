@@ -1,5 +1,5 @@
-from arkanoid.game import Game
+from arkanoid.game import Arkanoid
 
 if __name__ == '__main__':
-    game = Game()
-    game.bucle_principal()
+    arkanoid = Arkanoid()
+    arkanoid.start()
